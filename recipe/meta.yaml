@@ -18,7 +18,6 @@ requirements:
     - python
     - setuptools
     - wheel
-    - pytest-runner
     - pip
   run:
     - python
@@ -31,7 +30,8 @@ requirements:
     - tensorflow
     - keras
     - pandas
-    - mkl
+    - mkl-devel  {{ mkl }}           # [blas_impl == 'mkl']
+    - openblas-devel {{ openblas }}  # [blas_impl == 'openblas']
     - metric-learn
     - seaborn
 # Extra: docs
