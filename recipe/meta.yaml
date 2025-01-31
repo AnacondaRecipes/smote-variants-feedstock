@@ -1,0 +1,63 @@
+{% set name = "smote-variants" %}
+{% set version = "0.7.3" %}
+
+package:
+  name: {{ name|lower }}
+  version: {{ version }}
+
+source:
+  url: https://pypi.io/packages/source/{{ name[0] }}/{{ name }}/smote_variants-{{ version }}.tar.gz
+  sha256: 69497c764f101a76e8a3d4a9c80176704375c7aa5e26914f19222b59fb03b890
+
+build:
+  script: {{ PYTHON }} -m pip install . -vv --no-deps --no-build-isolation
+  number: 0
+
+requirements:
+  host:
+    - python
+    - setuptools
+    - wheel
+    - pytest-runner
+    - pip
+  run:
+    - python
+    - numpy
+    - scipy
+    - scikit-learn
+    - joblib
+    - minisom
+    - statistics
+    - tensorflow
+    - keras
+    - pandas
+    - mkl
+    - metric-learn
+    - seaborn
+# Extra: docs
+    # - sphinx
+    # - sphinx-gallery
+    # - sphinx_rtd_theme
+    # - matplotlib-base
+
+test:
+  source_files:
+    - tests
+  imports:
+    - smote_variants
+  commands:
+    - pip check
+    - pytest tests
+  requires:
+    - pip
+    - pytest
+
+about:
+  home: https://github.com/analyticalmindsltd/smote_variants
+  summary: Variants of the synthetic minority oversampling technique (SMOTE) for imbalanced learning
+  license: MIT
+  license_file: LICENSE
+
+extra:
+  recipe-maintainers:
+    - boldorider4
