@@ -26,7 +26,6 @@ requirements:
     - scikit-learn
     - joblib
     - minisom
-    - statistics
     - tensorflow
     - keras
     - pandas
