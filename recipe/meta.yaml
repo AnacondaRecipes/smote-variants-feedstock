@@ -34,11 +34,6 @@ requirements:
     - openblas-devel {{ openblas }}  # [blas_impl == 'openblas']
     - metric-learn
     - seaborn
-# Extra: docs
-    # - sphinx
-    # - sphinx-gallery
-    # - sphinx_rtd_theme
-    # - matplotlib-base
 
 test:
   source_files:
