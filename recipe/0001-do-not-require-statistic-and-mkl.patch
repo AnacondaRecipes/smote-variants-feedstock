@@ -1,0 +1,25 @@
+From 906e7836e7e16a6065272efd4c01ec36c513ea04 Mon Sep 17 00:00:00 2001
+From: Jack Olivieri <jolivieri@anaconda.com>
+Date: Tue, 4 Feb 2025 16:11:01 +0100
+Subject: [PATCH] do not require statistic and mkl
+
+---
+ setup.py | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/setup.py b/setup.py
+index 1dc3937..34d59a5 100644
+--- a/setup.py
++++ b/setup.py
+@@ -58,7 +58,7 @@ on_rtd = os.environ.get('READTHEDOCS') == 'True'
+ if on_rtd:
+     INSTALL_REQUIRES = []
+ else:
+-    INSTALL_REQUIRES= ['numpy', 'scipy', 'scikit-learn', 'joblib', 'minisom', 'statistics', 'tensorflow', 'keras', 'pandas', 'mkl', 'metric_learn', 'seaborn']
++    INSTALL_REQUIRES= ['numpy', 'scipy', 'scikit-learn', 'joblib', 'minisom', 'tensorflow', 'keras', 'pandas', 'metric_learn', 'seaborn']
+ EXTRAS_REQUIRE= {'tests': ['pytest'],
+                  'docs': ['sphinx', 'sphinx-gallery', 'sphinx_rtd_theme', 'matplotlib', 'pandas']}
+ PYTHON_REQUIRES= '>=3.5'
+-- 
+2.39.5 (Apple Git-154)
+
