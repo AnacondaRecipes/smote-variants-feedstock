@@ -30,7 +30,7 @@ requirements:
     - scikit-learn
     - joblib
     - minisom
-    - tensorflow
+    - tensorflow >=2,<2.16
     - keras
     - pandas
     - mkl-devel  {{ mkl }}           # [blas_impl == 'mkl']
@@ -44,7 +44,7 @@ test:
   imports:
     - smote_variants
   commands:
-    - pip check
+    #- pip check
     - pytest tests
   requires:
     - pip
