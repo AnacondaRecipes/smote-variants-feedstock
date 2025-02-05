@@ -10,6 +10,7 @@ source:
   sha256: 69497c764f101a76e8a3d4a9c80176704375c7aa5e26914f19222b59fb03b890
   patches:
     - 0001-do-not-require-statistic-and-mkl.patch
+    - 0002-import-tensorflows-keras-as-separate-module.patch
 
 build:
   script: {{ PYTHON }} -m pip install . -vv --no-deps --no-build-isolation

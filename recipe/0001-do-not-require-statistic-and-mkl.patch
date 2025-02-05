@@ -1,7 +1,7 @@
-From 906e7836e7e16a6065272efd4c01ec36c513ea04 Mon Sep 17 00:00:00 2001
+From 7f73d207cf1b247a41e2a1fb3f18e87be08d5b11 Mon Sep 17 00:00:00 2001
 From: Jack Olivieri <jolivieri@anaconda.com>
 Date: Tue, 4 Feb 2025 16:11:01 +0100
-Subject: [PATCH] do not require statistic and mkl
+Subject: [PATCH 1/2] do not require statistic and mkl
 
 ---
  setup.py | 2 +-
