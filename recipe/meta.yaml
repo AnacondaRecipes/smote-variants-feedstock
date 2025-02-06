@@ -10,12 +10,6 @@ source:
   sha256: 69497c764f101a76e8a3d4a9c80176704375c7aa5e26914f19222b59fb03b890
   patches:
     - 0001-do-not-require-statistic-and-mkl.patch
-    # The EarlyStopping callback is being accessed incorrectly. 
-    # The issue is that EarlyStopping is part of tensorflow.keras.callbacks, not tensorflow.keras.layers.
-    # callbacks = [tfkeras.layers.EarlyStopping(monitor='val_loss', patience=2)]
-    # TO 
-    # callbacks = [tfkeras.callbacks.EarlyStopping(monitor='val_loss', patience=2)]
-    - 0002-fix-EarlyStopping-import-path.patch
 
 build:
   number: 0
