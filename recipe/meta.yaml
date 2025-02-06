@@ -58,7 +58,7 @@ requirements:
 # Randomly fails on timeout for windows only
 # >       assert 0 < dict_count < len(sleeps)
 #  E      assert 0 < 0
-{% set tests_to_skip = "test_column_chunk_key_value_metadata" %}  # [win]
+{% set tests_to_skip = "test_jobs_functions_timeout" %}  # [win]
 
 test:
   source_files:
