@@ -15,8 +15,7 @@ source:
     # callbacks = [tfkeras.layers.EarlyStopping(monitor='val_loss', patience=2)]
     # TO 
     # callbacks = [tfkeras.callbacks.EarlyStopping(monitor='val_loss', patience=2)]
-    - 0002-fix-EarlyStopping-import.patch
-    - 0003-fix-encoding-check.patch
+    - 0002-fix-EarlyStopping-import-path.patch
 
 build:
   number: 0
@@ -46,15 +45,20 @@ requirements:
     - joblib
     - minisom
     # The tensorflow and keras versions must be compatible.
-    - tensorflow >=2.12,<2.13  # [not win]
-    - keras >=2.12,<2.13  # [not win]
-    - tensorflow >=2.10,<2.11  # [win]
-    - keras >=2.10,<2.11  # [win]
+    - tensorflow >=2,<2.16  # [not win]
+    - keras >=2,<2.16  # [not win]
+    - tensorflow >=2,<2.11  # [win]
+    - keras >=2,<2.11  # [win]
     - pandas
     - mkl-devel  {{ mkl }}           # [blas_impl == 'mkl']
     - openblas-devel {{ openblas }}  # [blas_impl == 'openblas']
     - metric-learn
     - seaborn
+
+# Randomly fails on timeout for windows only
+# >       assert 0 < dict_count < len(sleeps)
+#  E      assert 0 < 0
+{% set tests_to_skip = "test_column_chunk_key_value_metadata" %}  # [win]
 
 test:
   source_files:
@@ -67,7 +71,8 @@ test:
     # tensorflow 2.12.0 has requirement wrapt<1.15,>=1.11.0, but you have wrapt 1.17.0.
     # Can`t fix from this package
     #- pip check
-    - pytest -v tests
+    - pytest -v tests  # [not win]
+    - pytest -v -k "not ({{ tests_to_skip }})" tests  # [win]
   requires:
     - pip
     - pytest
