@@ -10,13 +10,22 @@ source:
   sha256: 69497c764f101a76e8a3d4a9c80176704375c7aa5e26914f19222b59fb03b890
   patches:
     - 0001-do-not-require-statistic-and-mkl.patch
-    - 0002-import-tensorflows-keras-as-separate-module.patch
+    # The EarlyStopping callback is being accessed incorrectly. 
+    # The issue is that EarlyStopping is part of tensorflow.keras.callbacks, not tensorflow.keras.layers.
+    # callbacks = [tfkeras.layers.EarlyStopping(monitor='val_loss', patience=2)]
+    # TO 
+    # callbacks = [tfkeras.callbacks.EarlyStopping(monitor='val_loss', patience=2)]
+    - 0002-fix-EarlyStopping-import.patch
+    - 0003-fix-encoding-check.patch
 
 build:
   script: {{ PYTHON }} -m pip install . -vv --no-deps --no-build-isolation
   number: 0
 
 requirements:
+  build: 
+    - patch  # [not win]
+    - m2-patch  # [win]
   host:
     - python
     - setuptools
@@ -30,8 +39,9 @@ requirements:
     - scikit-learn
     - joblib
     - minisom
-    - tensorflow >=2,<2.16
-    - keras
+    # The tensorflow and keras versions must be compatible.
+    - tensorflow >=2.12,<2.13
+    - keras >=2.12,<2.13
     - pandas
     - mkl-devel  {{ mkl }}           # [blas_impl == 'mkl']
     - openblas-devel {{ openblas }}  # [blas_impl == 'openblas']
@@ -44,8 +54,12 @@ test:
   imports:
     - smote_variants
   commands:
+    # tensorflow 2.12.0 requires jax, which is not installed.
+    # tensorflow 2.12.0 requires libclang, which is not installed.
+    # tensorflow 2.12.0 has requirement wrapt<1.15,>=1.11.0, but you have wrapt 1.17.0.
+    # Can`t fix from this package
     #- pip check
-    - pytest tests
+    - pytest -v tests
   requires:
     - pip
     - pytest
@@ -54,8 +68,16 @@ about:
   home: https://github.com/analyticalmindsltd/smote_variants
   summary: Variants of the synthetic minority oversampling technique (SMOTE) for imbalanced learning
   license: MIT
+  license_family: MIT
   license_file: LICENSE
+  description: Variants of the synthetic minority oversampling technique (SMOTE) for imbalanced learning
+  dev_url: https://github.com/analyticalmindsltd/smote_variants/
+  doc_url: https://smote-variants.readthedocs.io/
 
 extra:
   recipe-maintainers:
     - boldorider4
+  skip-lints:
+    - missing_pip_check
+    - host_section_needs_exact_pinnings
+
