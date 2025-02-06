@@ -1,4 +1,2 @@
 upload_channels:
   - sfe1ed40
-channels:
-  - https://staging.continuum.io/prefect/fs/metric-learn-feedstock/pr1/1c40c05
