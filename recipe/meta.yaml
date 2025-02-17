@@ -18,7 +18,7 @@ build:
   skip: True  # [s390x]
   # tensorflow and keras compatible versions is not available from py312
   skip: True  # [py>311]
-  # tensorflow on windows is avaliable only form py37 to py310
+  # tensorflow on windows is available only form py37 to py310
   skip: True  # [win and py>310]
 
 requirements:
