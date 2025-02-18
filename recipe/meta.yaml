@@ -1,5 +1,5 @@
 {% set name = "smote-variants" %}
-{% set version = "0.7.3" %}
+{% set version = "1.0.1" %}
 
 package:
   name: {{ name|lower }}
@@ -7,7 +7,7 @@ package:
 
 source:
   url: https://pypi.io/packages/source/{{ name[0] }}/{{ name }}/smote_variants-{{ version }}.tar.gz
-  sha256: 69497c764f101a76e8a3d4a9c80176704375c7aa5e26914f19222b59fb03b890
+  sha256: 2c14ad98cf6b9a3150c2217742a6f49686c9c4085dde887f1088e88108b7c206
   patches:
     - 0001-do-not-require-statistic-and-mkl.patch
 
