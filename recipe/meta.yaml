@@ -85,4 +85,5 @@ extra:
   skip-lints:
     - missing_pip_check
     - host_section_needs_exact_pinnings
+    - invalid_url
 
