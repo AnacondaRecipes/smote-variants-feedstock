@@ -1,0 +1,89 @@
+{% set name = "smote-variants" %}
+{% set version = "1.0.1" %}
+
+package:
+  name: {{ name|lower }}
+  version: {{ version }}
+
+source:
+  url: https://pypi.io/packages/source/{{ name[0] }}/{{ name }}/smote_variants-{{ version }}.tar.gz
+  sha256: 2c14ad98cf6b9a3150c2217742a6f49686c9c4085dde887f1088e88108b7c206
+  patches:
+    - 0001-do-not-require-statistic-and-mkl.patch
+
+build:
+  number: 0
+  script: {{ PYTHON }} -m pip install . -vv --no-deps --no-build-isolation
+  # On s390x tensorflow  does not exist (perhaps a typo or a missing channel).
+  skip: True  # [s390x]
+  # tensorflow and keras compatible versions is not available from py312
+  skip: True  # [py>311]
+  # tensorflow on windows is available only form py37 to py310
+  skip: True  # [win and py>310]
+
+requirements:
+  build: 
+    - patch  # [not win]
+    - m2-patch  # [win]
+  host:
+    - python
+    - setuptools
+    - wheel
+    - pip
+    - pytest-runner
+  run:
+    - python
+    - numpy
+    - scipy
+    - scikit-learn
+    - joblib
+    - minisom
+    # The tensorflow and keras versions must be compatible.
+    - tensorflow >=2,<2.16
+    - keras >=2,<2.16
+    - pandas
+    - mkl-devel  {{ mkl }}           # [blas_impl == 'mkl']
+    - openblas-devel {{ openblas }}  # [blas_impl == 'openblas']
+    - metric-learn
+    - seaborn
+
+# Randomly fails on timeout for windows only
+# >       assert 0 < dict_count < len(sleeps)
+#  E      assert 0 < 0
+{% set tests_to_skip = "test_jobs_functions_timeout" %}  # [win]
+
+test:
+  source_files:
+    - tests
+  imports:
+    - smote_variants
+  commands:
+    # tensorflow 2.12.0 requires jax, which is not installed.
+    # tensorflow 2.12.0 requires libclang, which is not installed.
+    # tensorflow 2.12.0 has requirement wrapt<1.15,>=1.11.0, but you have wrapt 1.17.0.
+    # Can`t fix from this package
+    #- pip check
+    - pytest -v tests  # [not win]
+    - pytest -v -k "not ({{ tests_to_skip }})" tests  # [win]
+  requires:
+    - pip
+    - pytest
+
+about:
+  home: https://github.com/analyticalmindsltd/smote_variants
+  summary: Variants of the synthetic minority oversampling technique (SMOTE) for imbalanced learning
+  license: MIT
+  license_family: MIT
+  license_file: LICENSE
+  description: Variants of the synthetic minority oversampling technique (SMOTE) for imbalanced learning
+  dev_url: https://github.com/analyticalmindsltd/smote_variants/
+  doc_url: https://smote-variants.readthedocs.io/
+
+extra:
+  recipe-maintainers:
+    - boldorider4
+  skip-lints:
+    - missing_pip_check
+    - host_section_needs_exact_pinnings
+    - invalid_url
+
